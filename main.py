@@ -1,7 +1,6 @@
 import data
 import helpers  # Importing the helpers module
 
-
 class TestUrbanRoutes:
     # Task 4: Setup class to check server status
     @classmethod
@@ -44,18 +43,15 @@ class TestUrbanRoutes:
         pass
 
     # Task 5: Preparing the ice cream order
-    def test_order_2_ice_creams(self, self):
+    def test_order_2_ice_creams(self):
         """
-        This test will prepare an order for 2 ice creams.
-        We'll use a for loop to simulate the order process.
+        Tests ordering two ice creams.
         """
-        for i in range(2):  # Loop to simulate ordering two ice creams
-            # Add in S8
-            print(f"Adding ice cream #{i + 1} to the order")
-            pass
+        ice_cream_count = 2  # Define a variable for the number of ice creams to order
+        for _ in range(ice_cream_count):  # Loop to iterate twice
+            self.page.order_ice_creams(1)  # Call the page method to order an ice cream
 
     def test_car_search_model_appears(self, self):
         # Add in S8
         print("function created for car search model appears")
         pass
-
