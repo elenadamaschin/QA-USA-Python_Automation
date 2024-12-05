@@ -48,3 +48,4 @@ class UrbanRoutesPage:
 
     def place_order(self):
         self.driver.find_element(*self.PLACE_ORDER_BUTTON).click()
+
