@@ -1,64 +1,46 @@
 import data
-import helpers  # Importing the helpers module
+from pages import UrbanRoutesPage
 
 class TestUrbanRoutes:
-    # Task 4: Setup class to check server status
     @classmethod
     def setup_class(cls):
-        # Check if the Urban Routes server is reachable
-        if helpers.is_url_reachable(data.URBAN_ROUTES_URL):
-            print("Connected to the Urban Routes server")
-        else:
-            print("Cannot connect to Urban Routes. Check the server is on and still running")
+        # Enable logging for performance monitoring
+        capabilities = DesiredCapabilities.CHROME
+        capabilities["goog:loggingPrefs"] = {'performance': 'ALL'}
+        cls.driver = webdriver.Chrome(desired_capabilities=capabilities)
 
-    # Task 3: Define test functions
+        # Check if the server is reachable
+        if is_url_reachable(data.URBAN_ROUTES_URL):
+            print("Connected to the Urban Routes server.")
+        else:
+            print("Cannot connect to Urban Routes. Check the server is on and still running.")
+
+        cls.page = UrbanRoutesPage(cls.driver)
+
+    @classmethod
+    def teardown_class(cls):
+        cls.driver.quit()
+
     def test_set_route(self):
-        """
-        Test setting a route using Urban Routes.
-        """
-        print("Function created for set route")
+        self.page.set_route(data.ADDRESS_FROM, data.ADDRESS_TO)
 
     def test_select_plan(self):
-        """
-        Test selecting a supportive taxi mode.
-        """
-        print("Function created for select plan")
+        self.page.select_supportive_mode()
 
     def test_fill_phone_number(self):
-        """
-        Test filling in a phone number.
-        """
-        print("Function created for fill phone number")
+        self.page.add_phone_number(data.PHONE_NUMBER)
 
     def test_fill_card(self):
-        """
-        Test adding a card payment method.
-        """
-        print("Function created for fill card")
+        self.page.add_card(data.CARD_NUMBER)
 
     def test_comment_for_driver(self):
-        """
-        Test adding a message to the driver.
-        """
-        print("Function created for comment for driver")
+        self.page.add_message_for_driver(data.MESSAGE_FOR_DRIVER)
 
     def test_order_blanket_and_handkerchiefs(self):
-        """
-        Test adding a blanket and handkerchiefs to the order.
-        """
-        print("Function created for order blanket and handkerchiefs")
+        self.page.add_blanket_and_handkerchiefs()
 
-    # Task 5: Preparing the ice cream order
     def test_order_2_ice_creams(self):
-        """
-        Test ordering two ice creams.
-        """
-        ice_cream_count = 2  # Declare a variable for the number of ice creams
-        for i in range(ice_cream_count):  # Use the variable in the range
-            print(f"Adding ice cream #{i + 1} to the order")  # Simulate the ordering process
+        self.page.add_ice_cream(quantity=2)
 
     def test_car_search_model_appears(self):
-        """
-        Test that searching for a car model displays results.
-        """
-        print("Function created for car search model appears")
+        self.page.place_order()
