@@ -1,5 +1,8 @@
 import data
-from pages import UrbanRoutesPage
+import helpers  # Correctly import helpers for server reachability check
+from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities
+from pages import UrbanRoutesPage  # Import the page object class
 
 class TestUrbanRoutes:
     @classmethod
@@ -10,11 +13,12 @@ class TestUrbanRoutes:
         cls.driver = webdriver.Chrome(desired_capabilities=capabilities)
 
         # Check if the server is reachable
-        if is_url_reachable(data.URBAN_ROUTES_URL):
+        if helpers.is_url_reachable(data.URBAN_ROUTES_URL):  # Correctly call the method from helpers
             print("Connected to the Urban Routes server.")
         else:
             print("Cannot connect to Urban Routes. Check the server is on and still running.")
-
+        
+        # Initialize the page object
         cls.page = UrbanRoutesPage(cls.driver)
 
     @classmethod
