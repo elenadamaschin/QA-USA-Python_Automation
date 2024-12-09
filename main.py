@@ -34,8 +34,8 @@ class TestUrbanRoutes:
         self.driver.get(data.URBAN_ROUTES_URL)  # Navigate to the Urban Routes app
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.set_route(data.ADDRESS_FROM, data.ADDRESS_TO)
-        assert routes_page.get_from() == data.ADDRESS_FROM, "From address did not match"
-        assert routes_page.get_to() == data.ADDRESS_TO, "To address did not match"
+        assert routes_page.get_from() == data.ADDRESS_FROM
+        assert routes_page.get_to() == data.ADDRESS_TO
 
     def test_select_plan(self):
         """
@@ -45,7 +45,7 @@ class TestUrbanRoutes:
         self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.select_taxi_mode()
-        assert routes_page.is_supportive_mode_selected(), "Supportive mode not selected"
+        assert routes_page.is_supportive_mode_selected()
 
     def test_fill_phone_number(self):
         """
@@ -55,7 +55,7 @@ class TestUrbanRoutes:
         self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.fill_phone_number(data.PHONE_NUMBER)
-        assert routes_page.get_phone_number() == data.PHONE_NUMBER, "Phone number did not match"
+        assert routes_page.get_phone_number() == data.PHONE_NUMBER
 
     def test_fill_card(self):
         """
@@ -65,8 +65,8 @@ class TestUrbanRoutes:
         self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.fill_card_details(data.CARD_NUMBER, data.CARD_CODE)
-        assert routes_page.get_card_number() == data.CARD_NUMBER, "Card number did not match"
-        assert routes_page.get_card_code() == data.CARD_CODE, "Card code did not match"
+        assert routes_page.get_card_number() == data.CARD_NUMBER
+        assert routes_page.get_card_code() == data.CARD_CODE
 
     def test_comment_for_driver(self):
         """
@@ -76,7 +76,7 @@ class TestUrbanRoutes:
         self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.add_message_for_driver(data.MESSAGE_FOR_DRIVER)
-        assert routes_page.get_driver_message() == data.MESSAGE_FOR_DRIVER, "Driver message did not match"
+        assert routes_page.get_driver_message() == data.MESSAGE_FOR_DRIVER
 
     def test_order_blanket_and_handkerchiefs(self):
         """
@@ -86,8 +86,8 @@ class TestUrbanRoutes:
         self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.add_extras()
-        assert routes_page.is_blanket_selected(), "Blanket not selected"
-        assert routes_page.is_handkerchief_selected(), "Handkerchief not selected"
+        assert routes_page.is_blanket_selected()
+        assert routes_page.is_handkerchief_selected()
 
     def test_order_2_ice_creams(self):
         """
@@ -97,7 +97,7 @@ class TestUrbanRoutes:
         self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.order_ice_creams(count=2)
-        assert routes_page.get_ice_cream_count() == 2, "Ice cream count did not match"
+        assert routes_page.get_ice_cream_count() == 2
 
     def test_car_search_model_appears(self):
         """
@@ -107,4 +107,4 @@ class TestUrbanRoutes:
         self.driver.get(data.URBAN_ROUTES_URL)
         routes_page = UrbanRoutesPage(self.driver)
         routes_page.place_order()
-        assert routes_page.is_car_search_model_visible(), "Car search model did not appear"
+        assert routes_page.is_car_search_model_visible()
