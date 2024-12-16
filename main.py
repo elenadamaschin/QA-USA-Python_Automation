@@ -1,6 +1,6 @@
 import data
 import helpers  # Correctly import helpers for server reachability check
-from pages import UrbanRoutesPage  # Import the page object class
+from pages import UrbanRoutesPage# Import the page object class
 from selenium import webdriver
 from selenium.webdriver import DesiredCapabilities
 
@@ -8,18 +8,14 @@ from selenium.webdriver import DesiredCapabilities
 class TestUrbanRoutes:
     @classmethod
     def setup_class(cls):
-        """
-        Setup class for initializing the WebDriver and page object.
-        Enables logging for performance monitoring.
-        """
+        # Enable logging for performance monitoring
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_experimental_option("perfLoggingPrefs", {'enableNetwork': True, 'enablePage': True})
-        chrome_options.add_experimental_option("goog:loggingPrefs", {'performance': 'ALL'})
-        
+        chrome_options.set_capability("goog:loggingPrefs", {'performance': 'ALL'})
         cls.driver = webdriver.Chrome(options=chrome_options)
 
         # Check if the server is reachable
-        if helpers.is_url_reachable(data.URBAN_ROUTES_URL):
+        if helpers.is_url_reachable(data.URBAN_ROUTES_URL):  # Correctly call the method from helpers
             print("Connected to the Urban Routes server.")
         else:
             print("Cannot connect to Urban Routes. Check the server is on and still running.")
@@ -29,9 +25,6 @@ class TestUrbanRoutes:
 
     @classmethod
     def teardown_class(cls):
-        """
-        Quit the WebDriver after all tests.
-        """
         cls.driver.quit()
 
     def test_set_route(self):
@@ -40,9 +33,10 @@ class TestUrbanRoutes:
         Verifies that the input fields are correctly populated.
         """
         self.driver.get(data.URBAN_ROUTES_URL)  # Navigate to the Urban Routes app
-        self.page.set_route(data.ADDRESS_FROM, data.ADDRESS_TO)
-        assert self.page.get_from() == data.ADDRESS_FROM, "Start address did not match."
-        assert self.page.get_to() == data.ADDRESS_TO, "End address did not match."
+        routes_page = UrbanRoutesPage(self.driver)
+        routes_page.set_route(data.ADDRESS_FROM, data.ADDRESS_TO)
+        assert routes_page.get_from() == data.ADDRESS_FROM
+        assert routes_page.get_to() == data.ADDRESS_TO
 
     def test_select_plan(self):
         """
@@ -50,8 +44,9 @@ class TestUrbanRoutes:
         Verifies that the selection is successful.
         """
         self.driver.get(data.URBAN_ROUTES_URL)
-        self.page.select_supportive_mode()
-        assert self.page.is_supportive_mode_selected(), "Supportive mode not selected."
+        routes_page = UrbanRoutesPage(self.driver)
+        routes_page.select_taxi_mode()
+        assert routes_page.is_supportive_mode_selected()
 
     def test_fill_phone_number(self):
         """
@@ -59,17 +54,20 @@ class TestUrbanRoutes:
         Verifies the phone number input field is populated.
         """
         self.driver.get(data.URBAN_ROUTES_URL)
-        self.page.fill_phone_number(data.PHONE_NUMBER)
-        assert self.page.get_phone_number() == data.PHONE_NUMBER, "Phone number did not match."
+        routes_page = UrbanRoutesPage(self.driver)
+        routes_page.fill_phone_number(data.PHONE_NUMBER)
+        assert routes_page.get_phone_number() == data.PHONE_NUMBER
 
     def test_fill_card(self):
         """
         Test adding card details for payment.
-        Verifies the card number input field is populated.
+        Verifies the card number and code input fields are populated.
         """
         self.driver.get(data.URBAN_ROUTES_URL)
-        self.page.fill_card_details(data.CARD_NUMBER)
-        assert self.page.get_card_number() == data.CARD_NUMBER, "Card number did not match."
+        routes_page = UrbanRoutesPage(self.driver)
+        routes_page.fill_card_details(data.CARD_NUMBER, data.CARD_CODE)
+        assert routes_page.get_card_number() == data.CARD_NUMBER
+        assert routes_page.get_card_code() == data.CARD_CODE
 
     def test_comment_for_driver(self):
         """
@@ -77,8 +75,9 @@ class TestUrbanRoutes:
         Verifies the comment input field is populated.
         """
         self.driver.get(data.URBAN_ROUTES_URL)
-        self.page.add_message_to_driver(data.MESSAGE_FOR_DRIVER)
-        assert self.page.get_driver_message() == data.MESSAGE_FOR_DRIVER, "Driver message did not match."
+        routes_page = UrbanRoutesPage(self.driver)
+        routes_page.add_message_for_driver(data.MESSAGE_FOR_DRIVER)
+        assert routes_page.get_driver_message() == data.MESSAGE_FOR_DRIVER
 
     def test_order_blanket_and_handkerchiefs(self):
         """
@@ -86,9 +85,10 @@ class TestUrbanRoutes:
         Verifies the selections are made.
         """
         self.driver.get(data.URBAN_ROUTES_URL)
-        self.page.select_extras()
-        assert self.page.is_blanket_selected(), "Blanket checkbox not selected."
-        assert self.page.is_handkerchief_selected(), "Handkerchief checkbox not selected."
+        routes_page = UrbanRoutesPage(self.driver)
+        routes_page.add_extras()
+        assert routes_page.is_blanket_selected()
+        assert routes_page.is_handkerchief_selected()
 
     def test_order_2_ice_creams(self):
         """
@@ -96,8 +96,9 @@ class TestUrbanRoutes:
         Verifies the ice cream count.
         """
         self.driver.get(data.URBAN_ROUTES_URL)
-        self.page.add_ice_cream(count=2)
-        assert self.page.get_ice_cream_count() == 2, "Ice cream count did not match."
+        routes_page = UrbanRoutesPage(self.driver)
+        routes_page.order_ice_creams(count=2)
+        assert routes_page.get_ice_cream_count() == 2
 
     def test_car_search_model_appears(self):
         """
@@ -105,5 +106,6 @@ class TestUrbanRoutes:
         Verifies that the car search model appears after placing the order.
         """
         self.driver.get(data.URBAN_ROUTES_URL)
-        self.page.place_order()
-        assert self.page.is_car_search_model_visible(), "Car search model did not appear."
+        routes_page = UrbanRoutesPage(self.driver)
+        routes_page.place_order()
+        assert routes_page.is_car_search_model_visible()
