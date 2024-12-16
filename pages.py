@@ -17,10 +17,10 @@ class UrbanRoutesPage:
     PHONE_INPUT = (By.CSS_SELECTOR, "#phone")
     CARD_INPUT = (By.CSS_SELECTOR, "#number")
     MESSAGE_INPUT = (By.CSS_SELECTOR, "#comment")
-    BLANKET_CHECKBOX = (By.CSS_SELECTOR, ".switch.blanket-checkbox")
-    HANDKERCHIEF_CHECKBOX = (By.CSS_SELECTOR, ".switch-input.handkerchief-checkbox")
-    ICE_CREAM_PLUS = (By.CSS_SELECTOR, "button.ice-cream-plus")  # Updated for button specificity
-    ICE_CREAM_COUNTER = (By.CSS_SELECTOR, ".counter-value")
+    BLANKET_CHECKBOX = (By.CLASS_NAME, "switch")
+    HANDKERCHIEF_CHECKBOX = (By.CLASS_NAME, "switch-input")
+    ICE_CREAM_PLUS = (By.CSS_SELECTOR, "div=+")
+    ICE_CREAM_COUNTER= (By.CLASS_NAME, "counter-value")
     PLACE_ORDER_BUTTON = (By.XPATH, "//button[@id='place-order']")
 
     # Methods
